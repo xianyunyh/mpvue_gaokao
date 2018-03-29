@@ -4,17 +4,17 @@ import Fly from 'flyio'
 const request = new Fly()
 
 request.interceptors.request.use((request) => {
-  wx.showNavigationBarLoading()
+  wx.showLoading()
   return request
 })
 
 request.interceptors.response.use(
     (response, promise) => {
-      wx.hideNavigationBarLoading()
+      wx.hideLoading()
       return promise.resolve(response.data)
     },
     (err, promise) => {
-      wx.hideNavigationBarLoading()
+      wx.hideLoading()
       wx.showToast({
         title: err.message,
         icon: 'none'
