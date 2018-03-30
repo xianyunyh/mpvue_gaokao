@@ -9,7 +9,7 @@
     <div class="weui-cells weui-cells_after-title">
             <div class="weui-cell">
                 <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
-                    <image :src="'http://tianlei.qiniudn.com/'+info.schoolid+'.jpg'" style="width: 50px; height: 50px; display: block"/>
+                    <image :src="schoolPic" style="width: 50px; height: 50px; display: block"/>
                 </div>
                 <div class="weui-cell__bd">
                     <div>{{info.schoolname}}</div>
@@ -22,7 +22,7 @@
             </div>
     </div>
 
-    <div class="weui-tab">
+    <div class="weui-tab detail">
         <div class="weui-navbar">
           <block v-for="(item,index) in tabs" :key="index">
             <div :id="index" :class="{'weui-bar__item_on':activeIndex == index}" class="weui-navbar__item" @click="tabClick">
@@ -33,10 +33,38 @@
         </div>
         <div class="weui-tab__panel">
           <div class="weui-tab__content" :hidden="activeIndex != 0">
-  
+          
+        <div class="weui-flex">
+        <div class="weui-flex__item detail-content">
+          <div class="placeholder">
+            <ul>
+              <li>学校类型：{{info.schoolproperty}}</li>
+              <li>学校层次：{{info.schooltype}}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="weui-flex__item detail-content">
+          <div class="placeholder">
+            <ul>
+              <li>所在省份：{{info.province}}</li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+        </div>
+        
+      </div>
+        <div class="weui-article__p f12">
+          {{info.jianjie}}
+        </div>
         
           </div>
-          <div class="weui-tab__content" :hidden="activeIndex != 1">选项二的内容</div>
+          <div class="weui-tab__content" :hidden="activeIndex != 1">
+              <div v-for="item in specialty" :key="item.id">
+                {{item.specialtyname}}
+              </div>
+            
+          </div>
           <div class="weui-tab__content" :hidden="activeIndex != 2">选项三的内容</div>
         </div>
       </div>
@@ -59,12 +87,18 @@ export default {
         '专业信息',
         '录取分数线'
       ],
-      activeIndex: 0
+      activeIndex: 0,
+      schoolId: 0,
+      specialty: []
     }
   },
   methods: {
-    tabClick (e) {
+    async tabClick (e) {
       this.activeIndex = e.currentTarget.id
+      if (Number(e.currentTarget.id) === 1) {
+        const info = await api.getSpecialty(this.schoolId)
+        this.specialty = info
+      }
     },
     async getSchoolInfo (id) {
       const info = await api.getSchoolInfo(id)
@@ -73,17 +107,24 @@ export default {
     }
   },
   created () {
-  // /
+  },
+  computed: {
+    schoolPic () {
+      return 'http://tianlei.qiniudn.com/' + this.schoolId + '.jpg'
+    }
   },
   onLoad (options) {
-    let schoolId = options.school_id || 0
-    if (schoolId === 0) return
+    const schoolId = options.school_id
+    this.schoolId = schoolId
     this.getSchoolInfo(schoolId)
   }
 }
 </script>
 
 <style>
+.f12{
+  font-size: 14px;
+}
 .detail-banner{
   width: 100%;
   height: 150px;
@@ -95,15 +136,23 @@ export default {
 
  
 }
+.detail{
+  padding:10px;
+  font-size: 12px;
+}
 .detail-nav .weui-flex__item{
  background-color: rgba(255,255,255, .5);
 }
 .school-label{
   display: inline-block;
-  margin:0 5px;
-  padding:4px;
+  margin:0 3px;
+  padding:3px;
   background: #099ff5;
-  font-size: 14px;
+  font-size: 12px;
   color: #fff
+}
+.detail-content ul{
+  font-size: 14px;
+  padding:10px;
 }
 </style>

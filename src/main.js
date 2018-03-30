@@ -15,14 +15,15 @@ export default {
     pages: ['pages/logs',
       '^pages/index',
       'pages/school/list',
-      'pages/school/detail'
+      'pages/school/detail',
+      'pages/search/school'
     ],
     window: {
       backgroundTextStyle: 'light',
       backgroundColor: '#099ff5',
       backgroundColorTop: '#099ff5',
       navigationBarBackgroundColor: '#099ff5',
-      navigationBarTitleText: 'IT之家Lite',
+      navigationBarTitleText: '高考之家',
       navigationBarTextStyle: 'white'
     },
     tabBar: {
@@ -31,11 +32,11 @@ export default {
       backgroundColor: '#fff',
       borderStyle: 'black',
       list: [{
-        pagePath: 'pages/logs',
+        pagePath: 'pages/index',
         text: '资讯'
       }, {
-        pagePath: 'pages/index',
-        text: '圈子'
+        pagePath: 'pages/search/school',
+        text: '查学校'
       }, {
         pagePath: 'pages/school/list',
         text: '圈子'

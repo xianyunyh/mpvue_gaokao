@@ -4,7 +4,11 @@ import Fly from 'flyio'
 const request = new Fly()
 
 request.interceptors.request.use((request) => {
-  wx.showLoading()
+  const options = {
+    title: '正在加载中',
+    mask: true
+  }
+  wx.showLoading(options)
   return request
 })
 
