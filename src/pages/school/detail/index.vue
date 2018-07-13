@@ -1,8 +1,6 @@
 <template>
   <div class="page">
-    <div class="page_hd detail-page">
-      <image class="detail-banner" src="http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg"/>
-    </div>
+  
     <div>
 
     </div>
@@ -25,7 +23,7 @@
     <div class="weui-tab detail">
         <div class="weui-navbar">
           <block v-for="(item,index) in tabs" :key="index">
-            <div :id="index" :class="{'weui-bar__item_on':activeIndex == index}" class="weui-navbar__item" @click="tabClick">
+            <div :id="index" class="weui-navbar__item" :class="{'weui-bar__item_on':activeIndex==index}"  @click="tabClick">
               <div class="weui-navbar__title">{{item}}</div>
             </div>
           </block>
@@ -55,33 +53,98 @@
         
       </div>
         <div class="weui-article__p f12">
-          {{info.jianjie}}
+          <rich-text :nodes="info.jianjie" type="text"></rich-text>
+    
         </div>
         
           </div>
           <div class="weui-tab__content" :hidden="activeIndex != 1">
-              <div v-for="item in specialty" :key="item.id">
-                {{item.specialtyname}}
-              </div>
-            
+                  <div class="weui-grids">
+                    <a  class="weui-grid" v-for="item in specialty" :key="item.id">
+           
+                      <p class="weui-grid__label">{{item.specialtyname}}</p>
+                   </a>
+                  </div>
           </div>
           <div class="weui-tab__content" :hidden="activeIndex != 2">选项三的内容</div>
         </div>
       </div>
+    <div class="echarts-wrap">
+      <mpvue-echarts :echarts="echarts" :onInit="onInit" canvasId="demo-canvas" />
+    </div>
   </div>
 </template>
 
 <script>
+
+import echarts from 'echarts/dist/echarts.simple.min'
+import mpvueEcharts from 'mpvue-echarts'
 import card from '@/components/card'
 import api from '@/utils/api'
+let chart = null;
+
+function initChart(canvas, width, height) {
+  chart = echarts.init(canvas, null, {
+    width: width,
+    height: height
+  });
+  canvas.setChart(chart);
+
+  var option = {
+    backgroundColor: '#ffffff',
+    color: ['#37A2DA', '#32C5E9', '#67E0E3', '#91F2DE', '#FFDB5C', '#FF9F7F'],
+    series: [{
+      label: {
+        normal: {
+          fontSize: 14
+        }
+      },
+      type: 'pie',
+      center: ['50%', '50%'],
+      radius: [0, '60%'],
+      data: [{
+        value: 55,
+        name: '北京'
+      }, {
+        value: 20,
+        name: '武汉'
+      }, {
+        value: 10,
+        name: '杭州'
+      }, {
+        value: 20,
+        name: '广州'
+      }, {
+        value: 38,
+        name: '上海'
+      }
+      ],
+      itemStyle: {
+        emphasis: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: 'rgba(0, 2, 2, 0.3)'
+        }
+      }
+    }]
+  }
+
+  chart.setOption(option);
+
+  return chart; // 返回 chart 后可以自动绑定触摸操作
+}
 export default {
   components: {
-    card
+    card,
+    mpvueEcharts
+    
   },
 
   data () {
     return {
       info: [],
+      echarts,
+      onInit: initChart,
       tabs: [
         '学校简介',
         '专业信息',
@@ -113,7 +176,7 @@ export default {
       return 'http://tianlei.qiniudn.com/' + this.schoolId + '.jpg'
     }
   },
-  onLoad (options) {
+  async onLoad (options) {
     const schoolId = options.school_id
     this.schoolId = schoolId
     this.getSchoolInfo(schoolId)
@@ -121,7 +184,16 @@ export default {
 }
 </script>
 
-<style>
+<style  scoped>
+
+.weui-grid{
+  width: 50%;
+}
+
+.echarts-wrap {
+  width: 100%;
+  height: 300px;
+}
 .f12{
   font-size: 14px;
 }

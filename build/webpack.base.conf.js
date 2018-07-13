@@ -24,15 +24,6 @@ const appEntry = { app: resolve('./src/main.js') }
 const pagesEntry = getEntry(resolve('./src'), 'pages/**/main.js')
 const entry = Object.assign({}, appEntry, pagesEntry)
 
-// var pages = require('../src/pages.js')
-// var entry = {
-//   app: resolve('./src/main.js')
-// }
-
-// pages.forEach(page => {
-//   entry[page] = resolve(`./src/${page}/main.js`)
-// })
-console.log(entry)
 module.exports = {
   // 如果要自定义生成的 dist 目录里面的文件路径，
   // 可以将 entry 写成 {'toPath': 'fromPath'} 的形式，
@@ -59,15 +50,15 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.(js|vue)$/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        include: [resolve('src'), resolve('test')],
-        options: {
-          formatter: require('eslint-friendly-formatter')
-        }
-      },
+      // {
+      //   test: /\.(js|vue)$/,
+      //   loader: 'eslint-loader',
+      //   enforce: 'pre',
+      //   include: [resolve('src'), resolve('test')],
+      //   options: {
+      //     formatter: require('eslint-friendly-formatter')
+      //   }
+      // },
       {
         test: /\.vue$/,
         loader: 'mpvue-loader',

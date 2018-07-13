@@ -6,6 +6,7 @@ Vue.config.productionTip = false
 App.mpType = 'app'
 
 const app = new Vue(App)
+
 app.$mount()
 
 export default {
@@ -41,6 +42,12 @@ export default {
         pagePath: 'pages/school/list',
         text: '圈子'
       }]
+    },
+    plugins: {
+      wxparserPlugin: {
+        version: '0.1.0',
+        provider: 'wx9d4d4ffa781ff3ac'
+      }
     }
   }
 }

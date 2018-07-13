@@ -8,7 +8,7 @@
       <div class="page__bd">
           <!-- 图文组合列表  start -->
       <div class="weui-panel weui-panel_access">
-        <div class="weui-panel__hd">图文组合列表</div>
+        <div class="weui-panel__hd">Top10 学校</div>
           <panel :lists="school"></panel>
         <div class="weui-panel__ft">
           <div class="weui-cell weui-cell_access weui-cell_link">
@@ -76,6 +76,10 @@ export default {
 .slide-image {
   width: 100%;
   height: 100%;
+}
+.echarts-wrap {
+  width: 100%;
+  height: 300px;
 }
 
 </style>

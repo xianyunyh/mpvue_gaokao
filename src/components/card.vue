@@ -1,7 +1,8 @@
 <template>
   <div>
     <p class="card">
-      {{text}}
+ 
+      <rich-text nodes="text"></rich-text>
     </p>
   </div>
 </template>

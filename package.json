@@ -11,9 +11,11 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "echarts": "^4.1.0",
     "flyio": "^0.4.3",
-    "mpvue": "^1.0.6",
-    "vuex": "^2.3.1"
+    "mpvue": "^1.0.13",
+    "mpvue-echarts": "^0.2.6",
+    "mpvue-wxparse": "^0.6.5"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",

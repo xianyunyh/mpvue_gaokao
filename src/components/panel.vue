@@ -6,7 +6,9 @@
             </div>
             <div class="weui-media-box__bd weui-media-box__bd_in-appmsg">
               <div class="weui-media-box__title">{{item.schoolname}}</div>
-              <div class="weui-media-box__desc">{{item.jianjie}}</div>
+              <div class="weui-media-box__desc">
+                <rich-text :nodes="item.jianjie" type="text"></rich-text>
+              </div>
             </div>
           </navigator>
         </div>
