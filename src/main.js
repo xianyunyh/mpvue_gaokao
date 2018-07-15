@@ -39,8 +39,8 @@ export default {
         pagePath: 'pages/search/school',
         text: '查学校'
       }, {
-        pagePath: 'pages/school/list',
-        text: '圈子'
+        pagePath: 'pages/logs',
+        text: '省控线'
       }]
     },
     plugins: {

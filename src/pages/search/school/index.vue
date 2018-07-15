@@ -26,8 +26,8 @@
          <div class="weui-form-preview__item">
           <div class="weui-form-preview__label">高校类别</div>
           <div class="weui-form-preview__value">
-              <picker data-key="schoolType" class="weui-btn" @change="PickerChange" :range="schoolType">
-      <button type="default">{{search.schoolType}}</button>
+              <picker data-key="schoolProperty" class="weui-btn" @change="PickerChange" :range="schoolProperty">
+      <button type="default">{{search.schoolProperty}}</button>
     </picker>
           </div>
         </div>
@@ -36,35 +36,49 @@
       </div>   
     </div>
    
+    <div class="weui-panel weui-panel_access" v-if="lists">
+        
+        <div class="weui-panel__hd">学校列表</div>
+        <panel :lists="lists"></panel>
+        <div class="weui-panel__ft">
+          <div class="weui-cell weui-cell_access weui-cell_link">
+            <div  @click="getSearch()" class="weui-cell__bd">查看更多</div>
+            <div class="weui-cell__ft weui-cell__ft_in-access"></div>
+          </div>
+        </div>
+    </div>
 
   </div>
 </template>
 
 <script>
 import card from '@/components/card'
-// import api from '@/utils/api'
-import {schoolType, schoolNature, province} from '@/utils/config'
+import panel from '@/components/panel'
+import api from '@/utils/api'
+import {schoolProperty, schoolNature, province} from '@/utils/config'
 export default {
   components: {
-    card
+    card,
+    panel
   },
 
   data () {
     return {
-      info: [],
+      lists: [],
       tabs: [
         '学校简介',
         '专业信息',
         '录取分数线'
       ],
+      page:1,
       activeIndex: 0,
       schoolId: 0,
       specialty: [],
-      schoolType,
+      schoolProperty,
       schoolNature,
       province,
       search: {
-        'schoolType': '理工类',
+        'schoolProperty': '理工类',
         'schoolNature': '公办',
         'schoolName': '',
         'province': '北京'
@@ -79,14 +93,30 @@ export default {
       this.search.province = this.province[e.mp.detail.value]
     },
     PickerChange (e) {
-      this.search.schoolType = this.schoolType[e.mp.detail.value]
+      this.search.schoolProperty = this.schoolProperty[e.mp.detail.value]
     },
     submit () {
-      console.log(this.search)
-      console.log(typeof this.search)
+      this.lists = [];
+      this.page = 1;
+      this.getSearch()
+    },
+    async getSearch() {
+      this.search.page = this.page;
+      this.page++
+      let res = await api.searchSchool(this.search)
+      if(res.data.length === 0) {
+        wx.showToast({
+          title: '没有更多学校了',
+          icon: 'success',
+          duration: 2000
+        })
+      }
+      this.lists = this.lists.concat(res.data)
     }
+
   },
   created () {
+    this.lists = []
   },
   computed: {
     schoolPic () {
